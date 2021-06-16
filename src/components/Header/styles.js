@@ -29,7 +29,7 @@ display: flex;
 align-items: center;
 justify-content: flex-end;
 
-a {
+a, button {
     color: #fff;
     font-weight: bold;
     text-decoration: none;
@@ -39,6 +39,14 @@ a {
         color: #EE6B26;
     }
 }
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+
     #notification{
         img {
             width: 25px;
