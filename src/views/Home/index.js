@@ -1,16 +1,33 @@
-import React, {useState} from 'react';
-import * as S from './styles'
+import React, {useState, useEffect} from 'react';
+import * as S from './styles';
+
+import api from '../../services/api';
 
 //Componentes
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
-import FilterCard from '../../components/FilterCard'
-import TaskCard from '../../components/TaskCard'
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import FilterCard from '../../components/FilterCard';
+import TaskCard from '../../components/TaskCard';
 
 
 
 function Home() {
-    const [filterActived, setFilterActived] = useState()
+    const [filterActived, setFilterActived] = useState('today')
+    const [tasks, setTasks] = useState([])
+
+    async function loadTasks() {
+        await api.get(`/task/filter/${filterActived}/11:11:11:11:11:12`)
+        .then(response => {
+            setTasks(response.data)
+            console.log(response.data)
+        })
+    }
+
+    useEffect(() => {
+        loadTasks();
+    }, [filterActived])
+
+
     return (
         <S.Container>
             <Header/>
@@ -40,16 +57,13 @@ function Home() {
                 <h3>TAREFAS</h3>
             </S.Title>
             <S.Content>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
-                <TaskCard/>
+                {
+                    tasks.map(t => (
+                       <TaskCard type={t.type} title={t.title} when={t.when}/> 
+                    ))
+                    
+                }
+            
             </S.Content>
             <Footer/>
         </S.Container>
