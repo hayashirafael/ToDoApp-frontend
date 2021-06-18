@@ -16,6 +16,13 @@ import iconClock from '../../assets/clock.png'
 function Task() {
     const [lateCount, setLateCount] = useState()
     const [type, setType] = useState()
+    const [id, setId] = useState()
+    const [done, setDone] = useState(false)
+    const [title, setTitle] = useState()
+    const [description, setDescription] = useState()
+    const [date, setDate] = useState()
+    const [hour, setHour] = useState()
+    const [macAddress, setMacaddress] = useState('11:11:11:11:11:12')
 
     async function lateVerify() {
         await api.get(`/task/filter/late/11:11:11:11:11:12`)
@@ -24,6 +31,19 @@ function Task() {
             console.log(response.length)
             
         })
+    }
+
+    async function Save() {
+        await api.post('/task', {
+            macAddress,
+            type,
+            title,
+            description,
+            when: `${date}T${hour}:00.000`
+        })
+        .then(() =>
+            alert('Tarefa cadastrada')
+        )
     }
 
     useEffect(() => {
@@ -51,31 +71,41 @@ function Task() {
                 </S.TypeIcons>
 
                 <S.Input>
-                    <span>Título</span>
-                    <input type="text" placeholder="Título da tarefa..."></input>
+                    <span>Titulo</span>
+                    <input type="text" placeholder="Título da tarefa..." 
+                    onChange={e => {setTitle(e.target.value)}}
+                    value={title} />
                 </S.Input>
 
                 <S.TextArea>
                     <span>Descrição</span>
-                    <textarea rows={5} placeholder="Detalhes da tarefa"  />
+                    <textarea rows={5} placeholder="Detalhes da tarefa" 
+                    onChange={e => {setDescription(e.target.value)}}
+                    value={description} />
                 </S.TextArea>
 
                 <S.InputCalendar>
                     <span>Data</span>
-                    <input type="date" placeholder="Data"></input>
+                    <input type="date" placeholder="Data"
+                    onChange={e => {setDate(e.target.value)}}
+                    value={date}
+                    />
                     
                     
                 </S.InputCalendar>
 
                 <S.InputClock>
                     <span>Hora</span>
-                    <input type="time" placeholder="Hora"></input>
+                    <input type="time" placeholder="Hora"
+                    onChange={e => {setHour(e.target.value)}}
+                    value={hour}
+                    />
                     
                 </S.InputClock>
 
                 <S.Options>
                     <div>
-                        <input type="checkbox" />
+                        <input type="checkbox" checked={done} onChange={() => setDone(!done)} />
                         <span>CONCLUÍDO</span>
                     </div>
 
@@ -83,7 +113,7 @@ function Task() {
                 </S.Options>
 
                 <S.Save>
-                    <button>SALVAR</button>
+                    <button onClick={Save}>SALVAR</button>
                 </S.Save>
 
 
