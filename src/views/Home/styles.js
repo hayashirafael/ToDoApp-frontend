@@ -25,6 +25,11 @@ display: flex;
 flex-wrap: wrap;
 justify-content: center;
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
 
 `
 
