@@ -9,8 +9,6 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import TypeIcons from '../../utils/typeIcons';
 
-import iconCalendar from '../../assets/calendar.png' 
-import iconClock from '../../assets/clock.png'
 
 
 

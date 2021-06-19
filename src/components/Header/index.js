@@ -9,7 +9,11 @@ function Header({lateCount, notification}){
     return (
         <S.Container>
             <S.LeftSide>
-                <img src={logo} alt="Logo"/>
+                <Link to="/">   
+                    <button>
+                    <img src={logo} alt="Logo"/>
+                    </button>
+                </Link>
             </S.LeftSide>
             <S.RightSide>
                 <Link to="/">INÍCIO</Link>

@@ -20,6 +20,11 @@ img {
     width: 100px;
     height: 40px;
 }
+
+button {
+    background: none;
+    border: none;
+}
 `
 
 export const RightSide = styled.div`
