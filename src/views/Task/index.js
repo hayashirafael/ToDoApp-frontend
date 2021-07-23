@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {Redirect} from 'react-router-dom'
 import * as S from './styles';
 import {format} from 'date-fns'
 
@@ -13,6 +14,7 @@ import TypeIcons from '../../utils/typeIcons';
 
 
 function Task({match}) {
+    const [redirect, setRedirect] = useState(false)
     const [lateCount, setLateCount] = useState()
     const [type, setType] = useState()
     const [id, setId] = useState()
@@ -45,6 +47,23 @@ function Task({match}) {
     }
 
     async function Save() {
+        if(match.params.id) {
+            await api.put(`/task/${match.params.id}`, {
+                macAddress,
+                done, 
+                type,
+                title,
+                description,
+                when: `${date}T${hour}:00.000`
+            })
+            .then(() =>
+                
+                setRedirect(true)
+            )
+
+        }else {
+
+        
         await api.post('/task', {
             macAddress,
             type,
@@ -53,8 +72,9 @@ function Task({match}) {
             when: `${date}T${hour}:00.000`
         })
         .then(() =>
-            alert('Tarefa cadastrada')
+            setRedirect(true)
         )
+        }
     }
 
     useEffect(() => {
@@ -66,6 +86,7 @@ function Task({match}) {
 
     return (
         <S.Container>
+            {redirect && <Redirect to="/" />}
             <Header lateCount={lateCount} />
             
             <S.Form>
